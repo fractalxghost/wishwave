@@ -1,54 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WishWave - Make a Wish, Change the World</title>
-    <!-- Bootstrap CSS for professional styling -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css">
-    <!-- PayPal SDK (replace YOUR_PAYPAL_CLIENT_ID with your actual PayPal Client ID) -->
-    <script src="https://www.paypal.com/sdk/js?client-id=YOUR_PAYPAL_CLIENT_ID&currency=USD"></script>
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WishWave - Make a Wish, Change the World</title>
+
+  <!-- Bootstrap CSS for professional styling -->
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="styles.css" />
+
+  <!-- PayPal SDK -->
+  <!-- We'll inject the client ID at build time or dynamically (see scripts.js notes) -->
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD"
+    defer
+    id="paypal-script"
+  ></script>
+
+  <!-- Firebase SDK -->
+  <!-- If using v9, consider using the modular or compat approach. See scripts.js -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-    <div class="container">
-        <!-- Header Section -->
-        <div class="jumbotron text-center">
-            <h1>Make a Wish, Change the World</h1>
-            <p>For just $1, share your wish and help us donate to charity!</p>
-        </div>
-
-        <!-- About Section -->
-        <section class="my-4">
-            <h2>About Us</h2>
-            <p>We're a virtual wishing well. Pay $1 to make a wish, and 10% supports [Charity Name]. See all wishes below!</p>
-        </section>
-
-        <!-- Wish Form and Payment -->
-        <form id="wishForm" class="my-4">
-            <div class="form-group">
-                <input type="text" id="wishInput" class="form-control" placeholder="Enter your wish" required>
-            </div>
-            <div id="paypal-button-container"></div>
-        </form>
-
-        <!-- Wish Stream -->
-        <section class="my-4">
-            <h2>Wish Stream</h2>
-            <div id="wishStream" class="list-group"></div>
-        </section>
-
-        <!-- FAQ Section -->
-        <section class="my-4">
-            <h2>FAQ</h2>
-            <p><strong>Is my payment safe?</strong> Yes, we use PayPal, a trusted payment platform.</p>
-        </section>
+  <div class="container">
+    <!-- Header Section -->
+    <div class="jumbotron text-center">
+      <h1>Make a Wish, Change the World</h1>
+      <p>For just $1, share your wish and help us donate to charity!</p>
     </div>
-    <!-- Custom JavaScript -->
-    <script src="scripts.js"></script>
+
+    <!-- About Section -->
+    <section class="my-4">
+      <h2>About Us</h2>
+      <p>
+        We're a virtual wishing well. Pay $1 to make a wish, and 10% supports
+        [Charity Name]. See all wishes below!
+      </p>
+    </section>
+
+    <!-- Wish Form and Payment -->
+    <form id="wishForm" class="my-4">
+      <div class="form-group">
+        <input
+          type="text"
+          id="wishInput"
+          class="form-control"
+          placeholder="Enter your wish"
+          required
+        />
+      </div>
+      <div id="paypal-button-container"></div>
+    </form>
+
+    <!-- Wish Stream -->
+    <section class="my-4">
+      <h2>Wish Stream</h2>
+      <div id="wishStream" class="list-group"></div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="my-4">
+      <h2>FAQ</h2>
+      <p>
+        <strong>Is my payment safe?</strong> Yes, we use PayPal, a trusted
+        payment platform.
+      </p>
+    </section>
+  </div>
+
+  <!-- Custom JavaScript -->
+  <script src="scripts.js"></script>
 </body>
 </html>
