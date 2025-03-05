@@ -1,40 +1,41 @@
 /* General Styles */
 body {
-    font-family: 'Poppins', sans-serif;
-    background: linear-gradient(to bottom, #6b48ff, #00ddeb);
-    color: white;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(to bottom, #6b48ff, #00ddeb);
+  color: white;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
 /* Jumbotron (Header) */
 .jumbotron {
-    background: transparent;
+  background: transparent;
 }
 
 /* Headings */
-h1, h2 {
-    font-weight: 600;
+h1,
+h2 {
+  font-weight: 600;
 }
 
 /* Wish Stream Items */
 #wishStream .list-group-item {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    margin-bottom: 10px;
-    border: none;
-    border-radius: 5px;
+  background: rgba(255, 255, 255, 0.1);
+  color: white;
+  margin-bottom: 10px;
+  border: none;
+  border-radius: 5px;
 }
 
 /* Form Input */
 #wishInput {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-    border: none;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
 }
 
 #wishInput::placeholder {
-    color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.7);
 }
