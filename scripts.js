@@ -3,7 +3,7 @@
  * Client-Side Code for WishWave
  ***********************************/
 
-// Firebase Configuration (replace placeholders with your actual values or inject via env)
+// Firebase Configuration (replace placeholders with your actual values)
 const firebaseConfig = {
   apiKey: "FIREBASE_API_KEY",
   authDomain: "FIREBASE_AUTH_DOMAIN",
@@ -113,11 +113,15 @@ db.collection("wishes")
     });
   }, error => console.error("Firestore Error:", error));
 
-// Smooth Fade-Out and Scroll
+// Smooth Fade-In of mainContent
 document.getElementById("getStartedBtn").addEventListener("click", () => {
-  const hero = document.getElementById("hero");
-  hero.classList.add("fade-out");
+  const mainContent = document.getElementById("mainContent");
+  // Remove the 'hidden' class and add 'fade-in'
+  mainContent.classList.remove("hidden");
+  mainContent.classList.add("fade-in");
+
+  // Scroll down to the main content after a short delay (so the fade can begin)
   setTimeout(() => {
-    document.getElementById("mainContent").scrollIntoView({ behavior: "smooth" });
-  }, 800);
+    mainContent.scrollIntoView({ behavior: "smooth" });
+  }, 300);
 });
