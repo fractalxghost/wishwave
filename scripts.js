@@ -17,11 +17,10 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Global variables for payment and wish text
 let selectedAmount = "0.00";
 let lastWish = "";
 
-// Store a free wish directly in Firestore
+// Store a free wish
 function storeWishFree(wish) {
   db.collection("wishes").add({
     wish: wish,
@@ -35,23 +34,23 @@ function storeWishFree(wish) {
   });
 }
 
-// Handle wish submission
+// Handle Wish Submission
 function handleWishSubmission() {
   const wishInput = document.getElementById("wishInput");
   const amountInput = document.getElementById("amountInput");
 
   const wishText = wishInput.value.trim();
   const amountText = amountInput.value.trim();
-
   if (!wishText) return;
 
   lastWish = wishText;
-
   const amountNum = parseFloat(amountText);
   if (!amountText || isNaN(amountNum) || amountNum <= 0) {
+    // Free
     selectedAmount = "0.00";
     storeWishFree(wishText);
   } else {
+    // Paid
     selectedAmount = amountNum.toFixed(2);
     document.getElementById("paypalSection").style.display = "block";
   }
@@ -99,7 +98,7 @@ paypal.Buttons({
   }
 }).render("#paypal-button-container");
 
-// Real-time Wish Stream from Firestore
+// Real-time Wish Stream
 db.collection("wishes")
   .orderBy("timestamp", "desc")
   .onSnapshot(snapshot => {
@@ -114,7 +113,7 @@ db.collection("wishes")
     });
   }, error => console.error("Firestore Error:", error));
 
-// Get Started Button: Fade out hero and scroll down
+// Smooth Fade-Out and Scroll
 document.getElementById("getStartedBtn").addEventListener("click", () => {
   const hero = document.getElementById("hero");
   hero.classList.add("fade-out");
