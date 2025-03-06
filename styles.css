@@ -1,4 +1,4 @@
-/* Body with a full-page background image */
+/* Body with full-page background image */
 body {
   font-family: 'Poppins', sans-serif;
   /* Replace 'images/magical-well-bg.jpg' with the correct path/filename */
@@ -10,19 +10,40 @@ body {
   flex-direction: column;
   justify-content: space-between;
   overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+/* Container overlay for readability */
+.container {
+  background: rgba(0, 0, 0, 0.4);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 20px auto;
 }
 
 /* Jumbotron (Header) */
 .jumbotron {
-  background: rgba(0, 0, 0, 0.4);
-  margin-top: 20px;
+  background: rgba(0, 0, 0, 0.3);
   padding: 20px;
-  border-radius: 10px;
+  border-radius: 8px;
 }
 
 /* Headings */
 h1, h2 {
   font-weight: 600;
+}
+
+/* Form Inputs */
+.form-control {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: none;
+  margin-bottom: 10px;
+}
+
+.form-control::placeholder {
+  color: rgba(255, 255, 255, 0.7);
 }
 
 /* Wish Stream Items */
@@ -32,91 +53,4 @@ h1, h2 {
   margin-bottom: 10px;
   border: none;
   border-radius: 5px;
-}
-
-/* Form Input */
-#wishInput, #amountInput {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  border: none;
-  margin-bottom: 10px;
-}
-
-#wishInput::placeholder,
-#amountInput::placeholder {
-  color: rgba(255, 255, 255, 0.7);
-}
-
-/* Animated Wish Element */
-.anim-wish {
-  font-size: 1rem;
-  font-weight: bold;
-  color: #fff;
-  z-index: 1000;
-}
-
-/* Well Container */
-#wellContainer {
-  margin: 20px auto;
-  text-align: center;
-}
-
-/* Well Styling */
-#well {
-  width: 250px;
-  height: 250px;
-  margin: 0 auto;
-  background: radial-gradient(circle at center, #3a3a3a, #1a1a1a);
-  border: 5px solid #555;
-  border-radius: 50%;
-  position: relative;
-  overflow: hidden;
-  box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
-}
-
-/* Water Animation inside the well */
-.water {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  height: 50%;
-  background: linear-gradient(to top, #00ddeb, #006bb3);
-  animation: waterFlow 3s ease-in-out infinite;
-}
-
-@keyframes waterFlow {
-  0% { transform: translateY(0%); }
-  50% { transform: translateY(-10%); }
-  100% { transform: translateY(0%); }
-}
-
-/* Glowing effect on water */
-.glow {
-  animation: waterGlow 1.5s ease-in-out;
-}
-
-@keyframes waterGlow {
-  0%   { box-shadow: 0 0 5px 0 rgba(0, 221, 235, 0.5); }
-  50%  { box-shadow: 0 0 20px 10px rgba(0, 107, 179, 1); }
-  100% { box-shadow: 0 0 5px 0 rgba(0, 221, 235, 0.5); }
-}
-
-/* Temporary wish display in the well (briefly shown, then removed) */
-.well-wish {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 1.1rem;
-  font-weight: bold;
-  color: #fff;
-  opacity: 0.9;
-}
-
-/* Optional: Make containers less transparent for readability */
-.container {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  padding: 20px;
-  margin-bottom: 40px;
 }
