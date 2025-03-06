@@ -5,40 +5,34 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>WishWave</title>
 
-  <!-- Google Fonts -->
-  <link
-    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap"
-    rel="stylesheet"
-  />
+  <!-- Google Fonts for modern high-tech style -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID or inject via env) -->
-  <script
-    src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD"
-    defer
-  ></script>
+  <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" defer></script>
 
-  <!-- Firebase SDK (compat for simplicity) -->
+  <!-- Firebase SDK (compat mode for simplicity) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <!-- SECTION 1: Hero (full-screen with well image) -->
-  <section class="hero" id="heroSection">
+  <!-- SECTION 1: Hero -->
+  <section id="heroSection" class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>WishWave</h1>
-      <p class="tagline">Make a Wish. Change the World.</p>
+      <p class="tagline">Make a Wish. Ignite the Future.</p>
       <button id="getStartedBtn" class="cta-btn">Get Started</button>
     </div>
   </section>
 
-  <!-- SECTION 2: Send Wish (navy-blue background, hidden by default) -->
-  <section id="wishSection" class="section-two hidden">
+  <!-- SECTION 2: Send Wish (initially hidden) -->
+  <section id="wishSection" class="section hidden">
     <div class="container">
-      <h2>Make Your Wish</h2>
+      <h2>Send Your Wish</h2>
       <form id="wishForm" class="wish-form">
         <input type="text" id="wishInput" placeholder="Enter your wish" required />
         <input type="text" id="amountInput" placeholder="Amount (leave blank for free)" />
@@ -47,30 +41,30 @@
     </div>
   </section>
 
-  <!-- SECTION 3: Wish Stream + FAQ (same navy background) -->
-  <section id="extrasSection" class="section-three">
+  <!-- SECTION 3: Wish Stream & FAQ -->
+  <section id="extrasSection" class="section">
     <div class="container">
-      <!-- PayPal Payment (only shown if needed) -->
+      <!-- Payment Card -->
       <div id="paypalSection" class="card payment-card" style="display: none;">
         <h2>Complete Your Payment</h2>
         <div id="paypal-button-container"></div>
       </div>
 
-      <!-- Wish Stream -->
+      <!-- Wish Stream Card -->
       <div class="card stream-card">
         <h2>Live Wish Stream</h2>
         <div id="wishStream" class="wish-stream"></div>
       </div>
 
-      <!-- FAQ -->
+      <!-- FAQ Card -->
       <div class="card faq-card">
         <h2>FAQ</h2>
-        <p><strong>Is my payment safe?</strong> Yes – we use PayPal’s secure platform.</p>
+        <p><strong>Is my payment safe?</strong> Absolutely – we use PayPal’s secure platform.</p>
       </div>
     </div>
   </section>
 
-  <!-- Custom JS -->
+  <!-- Custom JavaScript -->
   <script src="scripts.js"></script>
 </body>
 </html>
