@@ -15,8 +15,7 @@ body {
 }
 
 /* Headings */
-h1,
-h2 {
+h1, h2 {
   font-weight: 600;
 }
 
@@ -38,4 +37,50 @@ h2 {
 
 #wishInput::placeholder {
   color: rgba(255, 255, 255, 0.7);
+}
+
+/* Animated Wish Element */
+.anim-wish {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  z-index: 1000;
+}
+
+/* Well Container */
+#wellContainer {
+  margin: 20px auto;
+  text-align: center;
+}
+
+/* Well Styling */
+#well {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Glowing Animation */
+@keyframes glow {
+  0% { box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.5); }
+  50% { box-shadow: 0 0 20px 10px rgba(255, 255, 255, 1); }
+  100% { box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.5); }
+}
+
+.glow {
+  animation: glow 1s ease-in-out;
+}
+
+/* Wishes inside the well */
+.well-wish {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 0.9rem;
+  color: #fff;
 }
