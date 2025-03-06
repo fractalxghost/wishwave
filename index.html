@@ -6,7 +6,10 @@
   <title>WishWave - Make a Wish, Change the World</title>
 
   <!-- Bootstrap CSS for professional styling -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link
+    rel="stylesheet"
+    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+  />
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css" />
@@ -23,62 +26,77 @@
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <div class="container">
-    <!-- Header Section -->
-    <div class="jumbotron text-center">
-      <h1>Make a Wish, Change the World</h1>
-      <p>Enter your wish and an amount (or leave it blank for free) to share your wish with the world!</p>
+  <!-- Hero Section with Intro Text -->
+  <header class="hero-section d-flex align-items-center justify-content-center">
+    <div class="hero-text text-center">
+      <h1>WishWave</h1>
+      <p class="lead">
+        Make a Wish, Change the World. <br />
+        Enter a wish and an amount (or leave it free), then see your wish in our live stream!
+      </p>
+      <a href="#wishSection" class="btn btn-primary mt-3">Start Your Wish</a>
     </div>
+  </header>
 
+  <!-- Main Content -->
+  <main class="container my-5" id="wishSection">
     <!-- About Section -->
-    <section class="my-4">
+    <section class="mb-4 text-center">
       <h2>About Us</h2>
       <p>
-        We're a virtual wishing platform. Enter your wish, choose an amount, and see your wish in the live stream!
-        If a payment is required, PayPal handles the transaction securely.
+        We're a virtual wishing platform. Enter your wish, choose an amount, and watch your wish appear in our live stream. If your wish requires a payment, we'll securely process it via PayPal.
       </p>
     </section>
 
     <!-- Wish Form -->
-    <form id="wishForm" class="my-4">
-      <div class="form-group">
-        <input
-          type="text"
-          id="wishInput"
-          class="form-control"
-          placeholder="Enter your wish"
-          required
-        />
-      </div>
-      <div class="form-group">
-        <input
-          type="text"
-          id="amountInput"
-          class="form-control"
-          placeholder="Enter amount (blank or 0 = free)"
-        />
-      </div>
-      <button type="button" id="submitWishButton" class="btn btn-primary btn-block">Make a Wish</button>
-    </form>
+    <section class="mb-4">
+      <h2 class="text-center">Make Your Wish</h2>
+      <form id="wishForm" class="mt-3">
+        <div class="form-group">
+          <input
+            type="text"
+            id="wishInput"
+            class="form-control"
+            placeholder="Enter your wish"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <input
+            type="text"
+            id="amountInput"
+            class="form-control"
+            placeholder="Enter amount (blank or 0 = free)"
+          />
+        </div>
+        <button
+          type="button"
+          id="submitWishButton"
+          class="btn btn-success btn-block"
+        >
+          Make a Wish
+        </button>
+      </form>
+    </section>
 
     <!-- PayPal Payment Container (hidden unless amount > 0) -->
-    <div id="paypalSection" class="my-4" style="display: none;">
+    <section id="paypalSection" class="my-4" style="display: none;">
       <h2>Complete Your Wish Payment</h2>
       <div id="paypal-button-container"></div>
-    </div>
+    </section>
 
     <!-- Wish Stream -->
-    <section class="my-4">
-      <h2>Wish Stream</h2>
+    <section class="mb-4">
+      <h2 class="text-center">Wish Stream</h2>
       <div id="wishStream" class="list-group"></div>
     </section>
 
     <!-- FAQ Section -->
-    <section class="my-4">
+    <section class="mb-4">
       <h2>FAQ</h2>
       <p><strong>Is my payment safe?</strong> Yes, we use PayPal, a trusted payment platform.</p>
     </section>
-  </div>
+  </main>
 
   <!-- Custom JavaScript -->
   <script src="scripts.js"></script>
