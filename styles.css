@@ -16,7 +16,7 @@ html, body {
   position: relative;
   width: 100%;
   height: 100vh; /* full viewport height */
-  background: url("images/magical-well-bg.jpg") no-repeat center center;
+  background: url("images/magical-well-bg.png") no-repeat center center;
   background-size: cover;
   display: flex;
   align-items: center;
