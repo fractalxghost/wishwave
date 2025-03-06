@@ -1,79 +1,144 @@
-/* 1) Remove default body margin/padding */
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
 html, body {
   margin: 0;
   padding: 0;
   height: 100%;
+  font-family: 'Poppins', sans-serif;
 }
 
-/* 2) Hero Section (full viewport height, background image) */
+/* Hero Section with full-screen, responsive background */
 .hero-section {
-  position: relative;
   width: 100%;
-  height: 100vh; /* Full viewport height */
+  height: 100vh;
   background: url("images/magical-well-bg.png") no-repeat center center fixed;
   background-size: cover;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* 3) Hero Text (centered overlay) */
-.hero-text {
-  background: rgba(0, 0, 0, 0.4); /* semi-transparent overlay behind text */
-  padding: 30px;
-  border-radius: 8px;
-  max-width: 600px;
+/* Semi-transparent overlay behind hero text */
+.hero-overlay {
+  background: rgba(0, 0, 0, 0.5);
+  padding: 40px 20px;
+  border-radius: 10px;
+  text-align: center;
+  animation: fadeIn 1s ease-out;
 }
 
-.hero-text h1 {
+.hero-overlay h1 {
   font-size: 3rem;
   font-weight: 700;
-  margin-bottom: 1rem;
-  color: #fff;
-}
-
-.hero-text p {
-  font-size: 1.2rem;
-  color: #fff;
-}
-
-.hero-text a.btn {
-  font-size: 1.1rem;
-}
-
-/* 4) Main Container (below hero) */
-.container {
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 8px;
-  padding: 20px;
-  max-width: 700px;
-}
-
-/* Headings */
-h2 {
-  font-weight: 600;
-  margin-top: 20px;
   margin-bottom: 20px;
   color: #fff;
 }
 
-p {
+.hero-overlay .lead {
+  font-size: 1.25rem;
+  color: #e0e0e0;
+  margin-bottom: 30px;
+}
+
+.hero-overlay a.btn {
+  font-size: 1.1rem;
+  padding: 10px 30px;
+}
+
+/* Fade-in animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Main Container */
+.container {
+  background: rgba(0, 0, 0, 0.5);
+  border-radius: 10px;
+  padding: 30px;
+  margin: 40px auto;
+  max-width: 800px;
   color: #fff;
 }
 
-/* Form Inputs */
+/* Section Headings */
+h2 {
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #fff;
+  text-align: center;
+}
+
+/* Paragraphs */
+p {
+  color: #ddd;
+  font-size: 1rem;
+}
+
+/* Card styles for forms and payment sections */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  border: none;
+  border-radius: 10px;
+  color: #fff;
+}
+
+.card .card-body {
+  padding: 30px;
+}
+
+.card-title {
+  font-size: 1.8rem;
+  margin-bottom: 20px;
+}
+
+/* Form Controls */
 .form-control {
   background: rgba(255, 255, 255, 0.2);
-  color: white;
+  color: #fff;
   border: none;
+  border-radius: 5px;
+  padding: 12px 15px;
+  font-size: 1rem;
+  margin-bottom: 15px;
 }
 
 .form-control::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Wish Stream Items */
-#wishStream .list-group-item {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-  margin-bottom: 10px;
+/* Button styles */
+.btn {
+  font-size: 1rem;
+  padding: 12px 20px;
+  border-radius: 5px;
+}
+
+/* Wish Stream List Items */
+.list-group-item {
+  background: rgba(255, 255, 255, 0.15);
   border: none;
   border-radius: 5px;
+  margin-bottom: 10px;
+  font-size: 1rem;
+  padding: 12px 15px;
+  color: #fff;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-overlay h1 {
+    font-size: 2.5rem;
+  }
+  .hero-overlay .lead {
+    font-size: 1.1rem;
+  }
+  .container {
+    padding: 20px;
+    margin: 20px;
+  }
 }
