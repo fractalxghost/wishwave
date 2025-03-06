@@ -6,24 +6,15 @@
   <title>WishWave - Make a Wish, Change the World</title>
 
   <!-- Bootstrap CSS for professional styling -->
-  <link
-    rel="stylesheet"
-    href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-  />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- PayPal SDK -->
-  <!-- We'll inject the client ID at build time or dynamically (see scripts.js notes) -->
-  <script
-    src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD"
-    defer
-    id="paypal-script"
-  ></script>
+  <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID or inject it via env) -->
+  <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" defer id="paypal-script"></script>
 
-  <!-- Firebase SDK -->
-  <!-- If using v9, consider using the modular or compat approach. See scripts.js -->
+  <!-- Firebase SDK (using compat for ease) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
@@ -39,12 +30,11 @@
     <section class="my-4">
       <h2>About Us</h2>
       <p>
-        We're a virtual wishing well. Pay $1 to make a wish, and 10% supports
-        [Charity Name]. See all wishes below!
+        We're a virtual wishing well. Pay $1 to make a wish, and 10% supports [Charity Name]. See all wishes below!
       </p>
     </section>
 
-    <!-- Wish Form and Payment -->
+    <!-- Wish Form -->
     <form id="wishForm" class="my-4">
       <div class="form-group">
         <input
@@ -55,8 +45,22 @@
           required
         />
       </div>
-      <div id="paypal-button-container"></div>
+      <!-- Custom Button for submitting the wish and triggering animation -->
+      <button type="button" id="submitWishButton" class="btn btn-primary btn-block">Make a Wish</button>
     </form>
+
+    <!-- Animated Well -->
+    <div id="wellContainer" class="text-center">
+      <div id="well">
+        <!-- Animated wish elements will drop into this well -->
+      </div>
+    </div>
+
+    <!-- PayPal Payment Container (initially hidden) -->
+    <div id="paypalSection" class="my-4" style="display: none;">
+      <h2>Complete Your Wish Payment</h2>
+      <div id="paypal-button-container"></div>
+    </div>
 
     <!-- Wish Stream -->
     <section class="my-4">
@@ -67,10 +71,7 @@
     <!-- FAQ Section -->
     <section class="my-4">
       <h2>FAQ</h2>
-      <p>
-        <strong>Is my payment safe?</strong> Yes, we use PayPal, a trusted
-        payment platform.
-      </p>
+      <p><strong>Is my payment safe?</strong> Yes, we use PayPal, a trusted payment platform.</p>
     </section>
   </div>
 
