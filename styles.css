@@ -1,4 +1,4 @@
-/* Reset & Base */
+/* Reset & Base Styles */
 * {
   box-sizing: border-box;
 }
@@ -9,18 +9,20 @@ html, body {
   height: 100%;
   font-family: 'Montserrat', sans-serif;
   color: #fff;
+  background: url("images/magical-well-bg.jpg") no-repeat center top;
+  background-size: cover;
+  overflow-x: hidden;
 }
 
 /* SECTION 1: Hero */
 .hero {
   position: relative;
   width: 100%;
-  height: 100vh; /* full viewport height */
-  background: url("images/magical-well-bg.png") no-repeat center center;
-  background-size: cover;
+  height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
 }
 
 .hero-overlay {
@@ -29,7 +31,7 @@ html, body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.7);
   z-index: 1;
 }
 
@@ -41,48 +43,53 @@ html, body {
 }
 
 .hero-content h1 {
-  font-size: 3rem;
+  font-size: 4rem;
   font-weight: 700;
+  letter-spacing: 3px;
   margin-bottom: 20px;
+  color: #0ff; /* Neon cyan accent */
 }
 
 .hero-content .tagline {
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   font-weight: 300;
-  margin-bottom: 30px;
+  letter-spacing: 1px;
+  margin-bottom: 40px;
+  color: #ddd;
 }
 
 .cta-btn {
-  background: #ff416c;
-  color: #fff;
-  border: none;
+  background: transparent;
+  border: 2px solid #0ff;
+  color: #0ff;
   padding: 15px 30px;
   border-radius: 50px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: background 0.3s, color 0.3s;
 }
 
 .cta-btn:hover {
-  background: #ff4b2b;
+  background: #0ff;
+  color: #000;
 }
 
-/* Slide-Up animation for hero text */
+/* Slide Up Animation */
 @keyframes slideUp {
   from { transform: translateY(30px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* SECTION 2 & 3: Navy Blue Background */
-.section-two,
-.section-three {
-  min-height: 100vh;
-  background-color: #0B0F2F; /* navy blue that complements the well image */
+/* SECTION 2 & 3: Navy-Blue Background */
+.section {
+  width: 100%;
   padding: 60px 20px;
+  background-color: #0B0F2F; /* Deep navy matching high-tech vibe */
   transition: opacity 0.8s ease;
+  min-height: 100vh;
 }
 
-/* Hidden + Fade-In classes */
+/* Hidden & Fade-In */
 .hidden {
   opacity: 0;
   pointer-events: none;
@@ -94,36 +101,27 @@ html, body {
 
 @keyframes fadeIn {
   from { opacity: 0; }
-  to {
-    opacity: 1;
-    pointer-events: all;
-  }
+  to { opacity: 1; pointer-events: all; }
 }
 
-/* Container for each section */
+/* Container */
 .container {
   max-width: 800px;
   margin: 0 auto;
-}
-
-/* Titles in sections 2 & 3 */
-.section-two h2,
-.section-three h2 {
   text-align: center;
-  font-size: 2rem;
-  margin-bottom: 30px;
 }
 
-/* Form for the Wish */
+/* Form Styles */
 .wish-form {
   display: flex;
   flex-direction: column;
   gap: 15px;
+  margin-top: 20px;
 }
 
 .wish-form input[type="text"] {
   background: rgba(255,255,255,0.1);
-  border: none;
+  border: 1px solid rgba(255,255,255,0.2);
   border-radius: 5px;
   padding: 15px;
   font-size: 1rem;
@@ -134,15 +132,15 @@ html, body {
   color: rgba(255,255,255,0.7);
 }
 
-/* Buttons */
+/* Button for Form */
 .btn {
   background: #ff416c;
   color: #fff;
-  cursor: pointer;
   font-size: 1rem;
   padding: 15px;
   border: none;
   border-radius: 5px;
+  cursor: pointer;
   transition: background 0.3s ease;
 }
 
@@ -150,7 +148,7 @@ html, body {
   background: #ff4b2b;
 }
 
-/* Card styling for section 3 content */
+/* Card Styles for Section 3 */
 .card {
   background: rgba(255,255,255,0.05);
   border: none;
@@ -161,15 +159,15 @@ html, body {
 }
 
 .card h2 {
-  text-align: center;
   margin-bottom: 20px;
-  font-size: 1.8rem;
+  font-size: 2rem;
+  text-align: center;
 }
 
-/* Wish Stream */
 .wish-stream {
   max-height: 400px;
   overflow-y: auto;
+  margin-top: 20px;
 }
 
 .wish-item {
@@ -177,19 +175,20 @@ html, body {
   padding: 15px;
   margin-bottom: 10px;
   border-radius: 5px;
+  text-align: left;
 }
 
-/* Responsive */
+/* Responsive Adjustments */
 @media (max-width: 768px) {
   .hero-content h1 {
-    font-size: 2.5rem;
+    font-size: 3rem;
   }
   .hero-content .tagline {
-    font-size: 1rem;
+    font-size: 1.2rem;
   }
   .cta-btn {
     padding: 12px 25px;
-    font-size: 0.9rem;
+    font-size: 1rem;
   }
   .container {
     padding: 0 10px;
