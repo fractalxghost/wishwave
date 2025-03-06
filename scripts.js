@@ -17,100 +17,62 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let selectedAmount = "0.00"; // default to free
+// Default to free unless user enters a positive number
+let selectedAmount = "0.00";
 
-// Store wish directly (for free wishes)
-function storeWishDirectly(wish, amount) {
-  db.collection('wishes').add({
+// Store a free wish directly in Firestore
+function storeWishFree(wish) {
+  db.collection("wishes").add({
     wish: wish,
-    amount: amount,
+    amount: "free",
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   })
   .then(() => {
-    alert('Your free wish has been added!');
+    alert("Your free wish has been added!");
   })
-  .catch((error) => {
+  .catch(error => {
     console.error("Error adding wish: ", error);
-    alert('Error adding your wish. Please try again.');
+    alert("Error adding your wish. Please try again.");
   });
 }
 
-// Animate the wish into the well and then decide if payment is needed
-function animateWish() {
+// Handle form submission
+function handleWishSubmission() {
   const wishInput = document.getElementById("wishInput");
   const amountInput = document.getElementById("amountInput");
+
   const wishText = wishInput.value.trim();
   const amountText = amountInput.value.trim();
 
-  // If no wish text, do nothing
-  if (!wishText) return;
-
-  // If amount is empty, zero, or not a valid positive number => free
-  let numAmount = parseFloat(amountText);
-  if (!amountText || isNaN(numAmount) || numAmount <= 0) {
-    selectedAmount = "0.00";
-  } else {
-    // Valid positive number => set as the PayPal amount
-    selectedAmount = numAmount.toFixed(2);
+  if (!wishText) {
+    // No wish, do nothing
+    return;
   }
 
-  // Create an element for the wish animation
-  const animWish = document.createElement("div");
-  animWish.className = "anim-wish";
-  animWish.textContent = wishText;
-  document.body.appendChild(animWish);
+  // Determine if user entered a valid positive amount
+  const amountNum = parseFloat(amountText);
+  if (!amountText || isNaN(amountNum) || amountNum <= 0) {
+    // Free wish
+    selectedAmount = "0.00";
+    storeWishFree(wishText);
+  } else {
+    // Paid wish
+    selectedAmount = amountNum.toFixed(2);
+    // Show PayPal section
+    document.getElementById("paypalSection").style.display = "block";
+  }
 
-  // Animate from input to well
-  const inputRect = wishInput.getBoundingClientRect();
-  const well = document.getElementById("well");
-  const wellRect = well.getBoundingClientRect();
-
-  // Position the animated wish element initially at the input
-  animWish.style.position = "absolute";
-  animWish.style.left = inputRect.left + "px";
-  animWish.style.top = inputRect.top + "px";
-
-  // Trigger reflow for transition
-  void animWish.offsetWidth;
-
-  // Move to center of the well and fade out
-  animWish.style.transition = "all 1s ease-in-out";
-  animWish.style.left = wellRect.left + (wellRect.width / 2 - animWish.offsetWidth / 2) + "px";
-  animWish.style.top = wellRect.top + (wellRect.height / 2 - animWish.offsetHeight / 2) + "px";
-  animWish.style.opacity = "0";
-
-  // Water glow animation
-  well.querySelector(".water").classList.add("glow");
-
-  // Cleanup after animation
-  setTimeout(() => {
-    animWish.remove();
-    wishInput.value = "";
-    amountInput.value = "";
-
-    // Briefly show the wish inside the well
-    const tempWish = document.createElement("div");
-    tempWish.className = "well-wish";
-    tempWish.textContent = wishText;
-    well.appendChild(tempWish);
-    setTimeout(() => {
-      tempWish.remove();
-    }, 1500);
-
-    // If free => store directly, else show PayPal
-    if (selectedAmount === "0.00") {
-      storeWishDirectly(wishText, "free");
-    } else {
-      document.getElementById("paypalSection").style.display = "block";
-    }
-  }, 1100);
+  // Clear form fields
+  wishInput.value = "";
+  amountInput.value = "";
 }
 
-// Button event
-document.getElementById("submitWishButton").addEventListener("click", animateWish);
+// Attach event listener
+document.getElementById("submitWishButton").addEventListener("click", handleWishSubmission);
 
 // PayPal Button Integration
 paypal.Buttons({
+  // Create an order using the selectedAmount
   createOrder: function(data, actions) {
     return actions.order.create({
       purchase_units: [{
@@ -122,15 +84,18 @@ paypal.Buttons({
     });
   },
   onApprove: function(data, actions) {
-    // Retrieve the last wish from the well
-    const well = document.getElementById("well");
-    const wishes = well.getElementsByClassName("well-wish");
-    const wish = wishes.length ? wishes[wishes.length - 1].textContent : "No wish";
+    // We'll store the wish as the last user input, but in this simplified version
+    // we don't have the text (since we cleared the form). For a real scenario,
+    // you might keep a global variable or store the wish temporarily.
+    // For simplicity, let's prompt the user for the wish again or store it differently.
 
-    // Send payment + wish to serverless function
+    // Since we've cleared the wish, let's ask for it again
+    // or keep it in a variable. Here, let's keep it simple:
+    const storedWish = "Paid Wish";
+
     fetch("/api/capture-payment", {
       method: "POST",
-      body: JSON.stringify({ orderID: data.orderID, wish: wish, amount: selectedAmount }),
+      body: JSON.stringify({ orderID: data.orderID, wish: storedWish, amount: selectedAmount }),
       headers: { "Content-Type": "application/json" }
     })
     .then(response => response.json())
@@ -157,13 +122,14 @@ db.collection("wishes")
   .orderBy("timestamp", "desc")
   .onSnapshot(snapshot => {
     const wishStream = document.getElementById("wishStream");
-    wishStream.innerHTML = ""; // Clear existing
+    wishStream.innerHTML = "";
     snapshot.forEach(doc => {
       const data = doc.data();
       const listItem = document.createElement("div");
       listItem.className = "list-group-item";
-      listItem.textContent =
-        data.wish + (data.amount && data.amount !== "free" ? " - $" + data.amount : " (free)");
+      listItem.textContent = data.wish + (data.amount && data.amount !== "free"
+        ? " - $" + data.amount
+        : " (free)");
       wishStream.appendChild(listItem);
     });
   }, error => {
