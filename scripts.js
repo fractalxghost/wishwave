@@ -3,7 +3,7 @@
  * Client-Side Code for WishWave
  ***********************************/
 
-// Firebase Config (replace placeholders with your actual values)
+// Firebase Configuration (replace placeholders with your actual values or use env variables)
 const firebaseConfig = {
   apiKey: "FIREBASE_API_KEY",
   authDomain: "FIREBASE_AUTH_DOMAIN",
@@ -13,24 +13,25 @@ const firebaseConfig = {
   appId: "FIREBASE_APP_ID"
 };
 
-// Initialize Firebase
+// Initialize Firebase (compat mode)
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Global Variables
 let selectedAmount = "0.00";
 let lastWish = "";
 
-// Store free wish in Firestore
+// Store free wish directly in Firestore
 function storeWishFree(wish) {
   db.collection("wishes").add({
     wish: wish,
     amount: "free",
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   })
-  .then(() => alert("Your free wish has been added!"))
+  .then(() => alert("Your free wish has been sent!"))
   .catch(error => {
-    console.error("Error adding wish: ", error);
-    alert("Error adding your wish. Please try again.");
+    console.error("Error adding wish:", error);
+    alert("Error sending your wish. Please try again.");
   });
 }
 
@@ -44,7 +45,6 @@ function handleWishSubmission() {
   if (!wishText) return;
 
   lastWish = wishText;
-
   const amountNum = parseFloat(amountText);
   if (!amountText || isNaN(amountNum) || amountNum <= 0) {
     // Free wish
@@ -60,10 +60,9 @@ function handleWishSubmission() {
   amountInput.value = "";
 }
 
-// Event: Send Wish
 document.getElementById("submitWishButton").addEventListener("click", handleWishSubmission);
 
-// PayPal Integration
+// PayPal Button Integration
 paypal.Buttons({
   createOrder: function(data, actions) {
     return actions.order.create({
@@ -81,10 +80,10 @@ paypal.Buttons({
       body: JSON.stringify({ orderID: data.orderID, wish: lastWish, amount: selectedAmount }),
       headers: { "Content-Type": "application/json" }
     })
-    .then(res => res.json())
+    .then(response => response.json())
     .then(result => {
       if (result.success) {
-        alert("Thank you! Your wish has been added.");
+        alert("Thank you! Your wish has been sent.");
       } else {
         alert("Error processing your wish. Please try again.");
       }
@@ -100,7 +99,7 @@ paypal.Buttons({
   }
 }).render("#paypal-button-container");
 
-// Real-time Wish Stream
+// Real-time Wish Stream from Firestore
 db.collection("wishes")
   .orderBy("timestamp", "desc")
   .onSnapshot(snapshot => {
@@ -110,19 +109,20 @@ db.collection("wishes")
       const data = doc.data();
       const listItem = document.createElement("div");
       listItem.className = "wish-item";
-      listItem.textContent = data.wish + (data.amount && data.amount !== "free" ? " - $" + data.amount : " (free)");
+      listItem.textContent =
+        data.wish + (data.amount && data.amount !== "free" ? " - $" + data.amount : " (free)");
       wishStream.appendChild(listItem);
     });
   }, error => console.error("Firestore Error:", error));
 
-// Get Started => Fade in Section 2 + Scroll to the "Send Wish" Button
+// Map Get Started to the Send Wish Section
 document.getElementById("getStartedBtn").addEventListener("click", () => {
   const wishSection = document.getElementById("wishSection");
-  // Remove 'hidden', add 'fade-in'
+  // Remove hidden and add fade-in to section 2
   wishSection.classList.remove("hidden");
   wishSection.classList.add("fade-in");
 
-  // After a short delay, scroll to the "Send Wish" button
+  // Smooth scroll to the Send Wish button after fade-in begins
   setTimeout(() => {
     document.getElementById("submitWishButton").scrollIntoView({ behavior: "smooth" });
   }, 300);
