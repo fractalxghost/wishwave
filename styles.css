@@ -1,4 +1,4 @@
-/* Reset and base styles */
+/* Reset & Base */
 * {
   box-sizing: border-box;
 }
@@ -9,21 +9,24 @@ html, body {
   height: 100%;
   font-family: 'Montserrat', sans-serif;
   color: #fff;
-  background: url("images/magical-well-bg.png") no-repeat center center fixed;
+  /* Use your well image as the full background */
+  background: url("images/magical-well-bg.png") no-repeat center top;
   background-size: cover;
+  /* 'center top' ensures the image starts from top. 
+     If you want it fixed, you could add 'fixed', but it might limit seeing the bottom portion.
+  */
 }
 
 /* Hero Section */
 .hero {
   position: relative;
   width: 100%;
-  height: 100vh;
-  /* The background image is inherited from body; no extra overlay on the whole page */
+  height: 100vh; /* Full viewport height for the hero */
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 2;
   transition: opacity 0.8s ease;
+  z-index: 2;
 }
 
 .hero.fade-out {
@@ -31,18 +34,16 @@ html, body {
   pointer-events: none;
 }
 
-/* Semi-transparent overlay for hero content only */
 .hero-overlay {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.6);
+  background: rgba(0,0,0,0.6);
   z-index: 1;
 }
 
-/* Hero Content */
 .hero-content {
   position: relative;
   z-index: 2;
@@ -51,17 +52,15 @@ html, body {
 }
 
 .hero-content h1 {
-  font-size: 4rem;
+  font-size: 3rem;
   font-weight: 700;
   margin-bottom: 20px;
-  letter-spacing: 2px;
 }
 
 .hero-content .tagline {
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   font-weight: 300;
   margin-bottom: 30px;
-  letter-spacing: 1px;
 }
 
 .cta-btn {
@@ -70,7 +69,7 @@ html, body {
   border: none;
   padding: 15px 30px;
   border-radius: 50px;
-  font-size: 1.1rem;
+  font-size: 1rem;
   cursor: pointer;
   transition: background 0.3s ease;
 }
@@ -79,7 +78,6 @@ html, body {
   background: #ff4b2b;
 }
 
-/* Slide-up animation */
 @keyframes slideUp {
   from { transform: translateY(30px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
@@ -87,22 +85,24 @@ html, body {
 
 /* Main Content */
 .content {
+  min-height: 100vh; 
   padding: 60px 20px;
-  margin-top: -60px; /* Overlap a bit with hero fade-out */
+  margin-top: -60px; /* Slight overlap to ensure a smooth transition after fade-out */
 }
 
+/* Card Style */
 .card {
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0,0,0,0.5);
   border: none;
   border-radius: 10px;
   padding: 30px;
   margin-bottom: 40px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.5);
 }
 
 .card h2 {
   margin-bottom: 20px;
-  font-size: 2rem;
+  font-size: 1.8rem;
   text-align: center;
 }
 
@@ -117,12 +117,12 @@ html, body {
 }
 
 .card input[type="text"] {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255,255,255,0.1);
   color: #fff;
 }
 
 .card input[type="text"]::placeholder {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255,255,255,0.7);
 }
 
 .btn {
@@ -143,23 +143,23 @@ html, body {
 }
 
 .wish-item {
-  background: rgba(255, 255, 255, 0.08);
+  background: rgba(255,255,255,0.08);
   padding: 15px;
   margin-bottom: 10px;
   border-radius: 5px;
 }
 
-/* Responsive Adjustments */
+/* Responsive */
 @media (max-width: 768px) {
   .hero-content h1 {
-    font-size: 3rem;
+    font-size: 2.5rem;
   }
   .hero-content .tagline {
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   .cta-btn {
     padding: 12px 25px;
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
   .card {
     padding: 20px;
