@@ -12,15 +12,15 @@
   <link rel="stylesheet" href="styles.css" />
 
   <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID or inject via env) -->
-  <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" defer id="paypal-script"></script>
+  <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" defer></script>
 
   <!-- Firebase SDK (using compat for simplicity) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <!-- Hero Section (Top) -->
-  <section id="hero" class="hero">
+  <!-- Hero Section -->
+  <section class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>WishWave</h1>
@@ -29,8 +29,8 @@
     </div>
   </section>
 
-  <!-- Main Content Section (Below Hero) -->
-  <section id="mainContent" class="content">
+  <!-- Main Content Section (Initially hidden) -->
+  <section id="mainContent" class="content hidden">
     <div class="card form-card">
       <h2>Make Your Wish</h2>
       <form id="wishForm">
