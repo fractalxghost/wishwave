@@ -98,4 +98,74 @@ function animateWish() {
     }, 1500);
 
     // If free => store directly, else show PayPal
-    if (selectedAmount === "0.
+    if (selectedAmount === "0.00") {
+      storeWishDirectly(wishText, "free");
+    } else {
+      document.getElementById("paypalSection").style.display = "block";
+    }
+  }, 1100);
+}
+
+// Button event
+document.getElementById("submitWishButton").addEventListener("click", animateWish);
+
+// PayPal Button Integration
+paypal.Buttons({
+  createOrder: function(data, actions) {
+    return actions.order.create({
+      purchase_units: [{
+        amount: {
+          value: selectedAmount,
+          currency_code: "USD"
+        }
+      }]
+    });
+  },
+  onApprove: function(data, actions) {
+    // Retrieve the last wish from the well
+    const well = document.getElementById("well");
+    const wishes = well.getElementsByClassName("well-wish");
+    const wish = wishes.length ? wishes[wishes.length - 1].textContent : "No wish";
+
+    // Send payment + wish to serverless function
+    fetch("/api/capture-payment", {
+      method: "POST",
+      body: JSON.stringify({ orderID: data.orderID, wish: wish, amount: selectedAmount }),
+      headers: { "Content-Type": "application/json" }
+    })
+    .then(response => response.json())
+    .then(res => {
+      if (res.success) {
+        alert("Thank you! Your wish has been added.");
+      } else {
+        alert("Error processing your wish. Please try again.");
+      }
+    })
+    .catch(error => {
+      console.error("Error:", error);
+      alert("An error occurred. Please try again.");
+    });
+  },
+  onError: function(err) {
+    console.error("PayPal Error:", err);
+    alert("Payment failed. Please try again.");
+  }
+}).render("#paypal-button-container");
+
+// Real-time Wish Stream
+db.collection("wishes")
+  .orderBy("timestamp", "desc")
+  .onSnapshot(snapshot => {
+    const wishStream = document.getElementById("wishStream");
+    wishStream.innerHTML = ""; // Clear existing
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const listItem = document.createElement("div");
+      listItem.className = "list-group-item";
+      listItem.textContent =
+        data.wish + (data.amount && data.amount !== "free" ? " - $" + data.amount : " (free)");
+      wishStream.appendChild(listItem);
+    });
+  }, error => {
+    console.error("Firestore Error:", error);
+  });
