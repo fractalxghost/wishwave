@@ -17,10 +17,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Default to free unless user enters a positive number
 let selectedAmount = "0.00";
 
-// Store a free wish directly in Firestore
+// Store a free wish
 function storeWishFree(wish) {
   db.collection("wishes").add({
     wish: wish,
@@ -36,7 +35,6 @@ function storeWishFree(wish) {
   });
 }
 
-// Handle form submission
 function handleWishSubmission() {
   const wishInput = document.getElementById("wishInput");
   const amountInput = document.getElementById("amountInput");
@@ -45,7 +43,6 @@ function handleWishSubmission() {
   const amountText = amountInput.value.trim();
 
   if (!wishText) {
-    // No wish, do nothing
     return;
   }
 
@@ -58,21 +55,18 @@ function handleWishSubmission() {
   } else {
     // Paid wish
     selectedAmount = amountNum.toFixed(2);
-    // Show PayPal section
     document.getElementById("paypalSection").style.display = "block";
   }
 
-  // Clear form fields
+  // Clear the form fields
   wishInput.value = "";
   amountInput.value = "";
 }
 
-// Attach event listener
 document.getElementById("submitWishButton").addEventListener("click", handleWishSubmission);
 
 // PayPal Button Integration
 paypal.Buttons({
-  // Create an order using the selectedAmount
   createOrder: function(data, actions) {
     return actions.order.create({
       purchase_units: [{
@@ -84,13 +78,8 @@ paypal.Buttons({
     });
   },
   onApprove: function(data, actions) {
-    // We'll store the wish as the last user input, but in this simplified version
-    // we don't have the text (since we cleared the form). For a real scenario,
-    // you might keep a global variable or store the wish temporarily.
-    // For simplicity, let's prompt the user for the wish again or store it differently.
-
-    // Since we've cleared the wish, let's ask for it again
-    // or keep it in a variable. Here, let's keep it simple:
+    // For simplicity, let's store a generic "Paid Wish".
+    // Ideally, keep the user’s wish text in a global variable.
     const storedWish = "Paid Wish";
 
     fetch("/api/capture-payment", {
@@ -127,9 +116,10 @@ db.collection("wishes")
       const data = doc.data();
       const listItem = document.createElement("div");
       listItem.className = "list-group-item";
-      listItem.textContent = data.wish + (data.amount && data.amount !== "free"
-        ? " - $" + data.amount
-        : " (free)");
+      listItem.textContent =
+        data.wish + (data.amount && data.amount !== "free"
+          ? " - $" + data.amount
+          : " (free)");
       wishStream.appendChild(listItem);
     });
   }, error => {
