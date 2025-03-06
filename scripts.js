@@ -3,7 +3,7 @@
  * Client-Side Code for WishWave
  ***********************************/
 
-// Firebase Configuration (replace placeholders or inject via environment variables)
+// Firebase Configuration (replace placeholders with your actual values or inject via env)
 const firebaseConfig = {
   apiKey: "FIREBASE_API_KEY",
   authDomain: "FIREBASE_AUTH_DOMAIN",
@@ -17,9 +17,12 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
+// Global variable to hold the selected payment amount
 let selectedAmount = "0.00";
+// Optional: to preserve the user's wish for paid orders
+let lastWish = "";
 
-// Store a free wish
+// Store a free wish directly in Firestore
 function storeWishFree(wish) {
   db.collection("wishes").add({
     wish: wish,
@@ -35,6 +38,7 @@ function storeWishFree(wish) {
   });
 }
 
+// Handle the wish submission
 function handleWishSubmission() {
   const wishInput = document.getElementById("wishInput");
   const amountInput = document.getElementById("amountInput");
@@ -42,23 +46,24 @@ function handleWishSubmission() {
   const wishText = wishInput.value.trim();
   const amountText = amountInput.value.trim();
 
-  if (!wishText) {
-    return;
-  }
+  if (!wishText) return;
 
-  // Determine if user entered a valid positive amount
+  // Save the wish in a global variable for later retrieval
+  lastWish = wishText;
+
+  // Determine if a valid positive amount is entered
   const amountNum = parseFloat(amountText);
   if (!amountText || isNaN(amountNum) || amountNum <= 0) {
     // Free wish
     selectedAmount = "0.00";
     storeWishFree(wishText);
   } else {
-    // Paid wish
+    // Paid wish: set the amount and show the PayPal payment section
     selectedAmount = amountNum.toFixed(2);
     document.getElementById("paypalSection").style.display = "block";
   }
 
-  // Clear the form fields
+  // Clear the form inputs
   wishInput.value = "";
   amountInput.value = "";
 }
@@ -78,13 +83,10 @@ paypal.Buttons({
     });
   },
   onApprove: function(data, actions) {
-    // For simplicity, let's store a generic "Paid Wish".
-    // Ideally, keep the user’s wish text in a global variable.
-    const storedWish = "Paid Wish";
-
+    // For paid wishes, use the stored wish text from the global variable
     fetch("/api/capture-payment", {
       method: "POST",
-      body: JSON.stringify({ orderID: data.orderID, wish: storedWish, amount: selectedAmount }),
+      body: JSON.stringify({ orderID: data.orderID, wish: lastWish, amount: selectedAmount }),
       headers: { "Content-Type": "application/json" }
     })
     .then(response => response.json())
@@ -106,7 +108,7 @@ paypal.Buttons({
   }
 }).render("#paypal-button-container");
 
-// Real-time Wish Stream
+// Real-time Wish Stream: Display wishes from Firestore
 db.collection("wishes")
   .orderBy("timestamp", "desc")
   .onSnapshot(snapshot => {
@@ -117,9 +119,7 @@ db.collection("wishes")
       const listItem = document.createElement("div");
       listItem.className = "list-group-item";
       listItem.textContent =
-        data.wish + (data.amount && data.amount !== "free"
-          ? " - $" + data.amount
-          : " (free)");
+        data.wish + (data.amount && data.amount !== "free" ? " - $" + data.amount : " (free)");
       wishStream.appendChild(listItem);
     });
   }, error => {
