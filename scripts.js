@@ -3,7 +3,7 @@
  * Client-Side Code for WishWave
  ***********************************/
 
-// Firebase Configuration (replace placeholders with your actual values or inject via env)
+// Firebase Configuration (replace with your actual values or inject via environment variables)
 const firebaseConfig = {
   apiKey: "FIREBASE_API_KEY",
   authDomain: "FIREBASE_AUTH_DOMAIN",
@@ -17,21 +17,18 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Global variable to hold the selected payment amount
+// Global variables to hold order amount and wish text for paid orders
 let selectedAmount = "0.00";
-// Optional: to preserve the user's wish for paid orders
 let lastWish = "";
 
-// Store a free wish directly in Firestore
+// Function to store a free wish directly in Firestore
 function storeWishFree(wish) {
   db.collection("wishes").add({
     wish: wish,
     amount: "free",
     timestamp: firebase.firestore.FieldValue.serverTimestamp()
   })
-  .then(() => {
-    alert("Your free wish has been added!");
-  })
+  .then(() => alert("Your free wish has been added!"))
   .catch(error => {
     console.error("Error adding wish: ", error);
     alert("Error adding your wish. Please try again.");
@@ -42,28 +39,25 @@ function storeWishFree(wish) {
 function handleWishSubmission() {
   const wishInput = document.getElementById("wishInput");
   const amountInput = document.getElementById("amountInput");
-
+  
   const wishText = wishInput.value.trim();
   const amountText = amountInput.value.trim();
 
   if (!wishText) return;
+  
+  lastWish = wishText; // Preserve for paid orders
 
-  // Save the wish in a global variable for later retrieval
-  lastWish = wishText;
-
-  // Determine if a valid positive amount is entered
   const amountNum = parseFloat(amountText);
   if (!amountText || isNaN(amountNum) || amountNum <= 0) {
     // Free wish
     selectedAmount = "0.00";
     storeWishFree(wishText);
   } else {
-    // Paid wish: set the amount and show the PayPal payment section
+    // Paid wish
     selectedAmount = amountNum.toFixed(2);
     document.getElementById("paypalSection").style.display = "block";
   }
-
-  // Clear the form inputs
+  
   wishInput.value = "";
   amountInput.value = "";
 }
@@ -83,7 +77,6 @@ paypal.Buttons({
     });
   },
   onApprove: function(data, actions) {
-    // For paid wishes, use the stored wish text from the global variable
     fetch("/api/capture-payment", {
       method: "POST",
       body: JSON.stringify({ orderID: data.orderID, wish: lastWish, amount: selectedAmount }),
@@ -108,7 +101,7 @@ paypal.Buttons({
   }
 }).render("#paypal-button-container");
 
-// Real-time Wish Stream: Display wishes from Firestore
+// Real-time Wish Stream from Firestore
 db.collection("wishes")
   .orderBy("timestamp", "desc")
   .onSnapshot(snapshot => {
@@ -117,11 +110,8 @@ db.collection("wishes")
     snapshot.forEach(doc => {
       const data = doc.data();
       const listItem = document.createElement("div");
-      listItem.className = "list-group-item";
-      listItem.textContent =
-        data.wish + (data.amount && data.amount !== "free" ? " - $" + data.amount : " (free)");
+      listItem.className = "wish-item";
+      listItem.textContent = data.wish + (data.amount && data.amount !== "free" ? " - $" + data.amount : " (free)");
       wishStream.appendChild(listItem);
     });
-  }, error => {
-    console.error("Firestore Error:", error);
-  });
+  }, error => console.error("Firestore Error:", error));
