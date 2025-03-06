@@ -4,33 +4,33 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>WishWave</title>
-
+  
   <!-- Google Fonts for modern aesthetic -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
-
+  
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css" />
-
+  
   <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID or inject via env) -->
   <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" defer id="paypal-script"></script>
-
+  
   <!-- Firebase SDK (using compat for simplicity) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <!-- Main Hero Section -->
-  <section class="hero">
+  <!-- Hero Section -->
+  <section id="hero" class="hero">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>WishWave</h1>
       <p class="tagline">Make a Wish. Change the World.</p>
-      <a href="#get-started" class="cta-btn">Get Started</a>
+      <button id="getStartedBtn" class="cta-btn">Get Started</button>
     </div>
   </section>
 
-  <!-- Content Section -->
-  <section id="get-started" class="content">
+  <!-- Main Content Section -->
+  <section id="mainContent" class="content">
     <div class="card form-card">
       <h2>Make Your Wish</h2>
       <form id="wishForm">
@@ -52,7 +52,7 @@
 
     <div class="card faq-card">
       <h2>FAQ</h2>
-      <p><strong>Is my payment safe?</strong> Yes. We use PayPal’s secure platform.</p>
+      <p><strong>Is my payment safe?</strong> Yes – we use PayPal’s secure platform.</p>
     </div>
   </section>
 
