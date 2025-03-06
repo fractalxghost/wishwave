@@ -3,85 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>WishWave - Make a Wish, Change the World</title>
-  
-  <!-- Bootstrap CSS (using v4.5.2 for quick prototyping) -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-  
-  <!-- Google Fonts for a modern look -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  
+  <title>WishWave</title>
+
+  <!-- Google Fonts for modern aesthetic -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css" />
-  
+
   <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID or inject via env) -->
   <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" defer id="paypal-script"></script>
-  
+
   <!-- Firebase SDK (using compat for simplicity) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <!-- Hero Section -->
-  <header class="hero-section d-flex align-items-center justify-content-center">
-    <div class="hero-overlay text-center">
-      <h1 class="display-4">WishWave</h1>
-      <p class="lead">Make a Wish, Change the World</p>
-      <a href="#mainContent" class="btn btn-lg btn-primary mt-3">Get Started</a>
+  <!-- Main Hero Section -->
+  <section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h1>WishWave</h1>
+      <p class="tagline">Make a Wish. Change the World.</p>
+      <a href="#get-started" class="cta-btn">Get Started</a>
     </div>
-  </header>
+  </section>
 
-  <!-- Main Content -->
-  <main id="mainContent" class="container my-5">
-    <!-- About Section -->
-    <section class="mb-5 text-center">
-      <h2>About Us</h2>
-      <p>
-        We are a virtual wishing platform. Enter your wish, choose an amount (or leave it free), and watch your wish light up our live stream!
-        If payment is required, our secure PayPal system handles it.
-      </p>
-    </section>
+  <!-- Content Section -->
+  <section id="get-started" class="content">
+    <div class="card form-card">
+      <h2>Make Your Wish</h2>
+      <form id="wishForm">
+        <input type="text" id="wishInput" placeholder="Enter your wish" required />
+        <input type="text" id="amountInput" placeholder="Amount (leave blank for free)" />
+        <button type="button" id="submitWishButton" class="btn">Send Wish</button>
+      </form>
+    </div>
 
-    <!-- Wish Form Section -->
-    <section class="mb-5">
-      <div class="card shadow border-0">
-        <div class="card-body">
-          <h2 class="card-title text-center">Make Your Wish</h2>
-          <form id="wishForm" class="mt-4">
-            <div class="form-group">
-              <input type="text" id="wishInput" class="form-control" placeholder="Enter your wish" required />
-            </div>
-            <div class="form-group">
-              <input type="text" id="amountInput" class="form-control" placeholder="Enter amount (leave blank or 0 for free)" />
-            </div>
-            <button type="button" id="submitWishButton" class="btn btn-success btn-block">Send My Wish</button>
-          </form>
-        </div>
-      </div>
-    </section>
+    <div id="paypalSection" class="card payment-card" style="display: none;">
+      <h2>Complete Your Payment</h2>
+      <div id="paypal-button-container"></div>
+    </div>
 
-    <!-- PayPal Payment Section (hidden unless payment is needed) -->
-    <section id="paypalSection" class="mb-5" style="display: none;">
-      <div class="card shadow border-0">
-        <div class="card-body text-center">
-          <h2 class="card-title">Complete Your Payment</h2>
-          <div id="paypal-button-container" class="mt-3"></div>
-        </div>
-      </div>
-    </section>
+    <div class="card stream-card">
+      <h2>Live Wish Stream</h2>
+      <div id="wishStream" class="wish-stream"></div>
+    </div>
 
-    <!-- Wish Stream Section -->
-    <section class="mb-5">
-      <h2 class="text-center">Wish Stream</h2>
-      <div id="wishStream" class="list-group mt-4"></div>
-    </section>
-
-    <!-- FAQ Section -->
-    <section class="mb-5">
+    <div class="card faq-card">
       <h2>FAQ</h2>
-      <p><strong>Is my payment safe?</strong> Yes – we use PayPal, a trusted and secure payment platform.</p>
-    </section>
-  </main>
+      <p><strong>Is my payment safe?</strong> Yes. We use PayPal’s secure platform.</p>
+    </div>
+  </section>
 
   <!-- Custom JavaScript -->
   <script src="scripts.js"></script>
