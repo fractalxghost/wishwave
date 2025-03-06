@@ -11,7 +11,7 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css" />
 
-  <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID or inject it via env) -->
+  <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID or inject via env) -->
   <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" defer id="paypal-script"></script>
 
   <!-- Firebase SDK (using compat for ease) -->
@@ -23,27 +23,24 @@
     <!-- Header Section -->
     <div class="jumbotron text-center">
       <h1>Make a Wish, Change the World</h1>
-      <p>For just $1, share your wish and help us donate to charity!</p>
+      <p>For just $1 (or for free!), share your wish and help us donate to charity!</p>
     </div>
 
     <!-- About Section -->
     <section class="my-4">
       <h2>About Us</h2>
       <p>
-        We're a virtual wishing well. Pay $1 to make a wish, and 10% supports [Charity Name]. See all wishes below!
+        We're a virtual wishing well. Enter your wish and choose an amount – it can even be free. If a payment is required, you’ll be prompted to complete it. All wishes appear in our live wish stream!
       </p>
     </section>
 
     <!-- Wish Form -->
     <form id="wishForm" class="my-4">
       <div class="form-group">
-        <input
-          type="text"
-          id="wishInput"
-          class="form-control"
-          placeholder="Enter your wish"
-          required
-        />
+        <input type="text" id="wishInput" class="form-control" placeholder="Enter your wish" required />
+      </div>
+      <div class="form-group">
+        <input type="text" id="amountInput" class="form-control" placeholder="Enter wish amount (e.g., 1 or free)" required />
       </div>
       <!-- Custom Button for submitting the wish and triggering animation -->
       <button type="button" id="submitWishButton" class="btn btn-primary btn-block">Make a Wish</button>
@@ -52,7 +49,8 @@
     <!-- Animated Well -->
     <div id="wellContainer" class="text-center">
       <div id="well">
-        <!-- Animated wish elements will drop into this well -->
+        <!-- A separate water layer for animation -->
+        <div class="water"></div>
       </div>
     </div>
 
