@@ -9,7 +9,7 @@ html, body {
   height: 100%;
   font-family: 'Montserrat', sans-serif;
   color: #fff;
-  background: url("images/magical-well-bg.jpg") no-repeat center center fixed;
+  background: url("images/magical-well-bg.png") no-repeat center center fixed;
   background-size: cover;
 }
 
