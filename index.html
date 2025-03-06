@@ -6,21 +6,27 @@
   <title>WishWave</title>
 
   <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap"
+    rel="stylesheet"
+  />
 
   <!-- Custom CSS -->
   <link rel="stylesheet" href="styles.css" />
 
   <!-- PayPal SDK (replace PAYPAL_CLIENT_ID with your actual client ID or inject via env) -->
-  <script src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD" defer></script>
+  <script
+    src="https://www.paypal.com/sdk/js?client-id=PAYPAL_CLIENT_ID&currency=USD"
+    defer
+  ></script>
 
-  <!-- Firebase SDK (using compat for simplicity) -->
+  <!-- Firebase SDK (compat for simplicity) -->
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
 </head>
 <body>
-  <!-- Hero Section -->
-  <section class="hero">
+  <!-- SECTION 1: Hero (full-screen with well image) -->
+  <section class="hero" id="heroSection">
     <div class="hero-overlay"></div>
     <div class="hero-content">
       <h1>WishWave</h1>
@@ -29,34 +35,42 @@
     </div>
   </section>
 
-  <!-- Main Content Section (Initially hidden) -->
-  <section id="mainContent" class="content hidden">
-    <div class="card form-card">
+  <!-- SECTION 2: Send Wish (navy-blue background, hidden by default) -->
+  <section id="wishSection" class="section-two hidden">
+    <div class="container">
       <h2>Make Your Wish</h2>
-      <form id="wishForm">
+      <form id="wishForm" class="wish-form">
         <input type="text" id="wishInput" placeholder="Enter your wish" required />
         <input type="text" id="amountInput" placeholder="Amount (leave blank for free)" />
         <button type="button" id="submitWishButton" class="btn">Send Wish</button>
       </form>
     </div>
+  </section>
 
-    <div id="paypalSection" class="card payment-card" style="display: none;">
-      <h2>Complete Your Payment</h2>
-      <div id="paypal-button-container"></div>
-    </div>
+  <!-- SECTION 3: Wish Stream + FAQ (same navy background) -->
+  <section id="extrasSection" class="section-three">
+    <div class="container">
+      <!-- PayPal Payment (only shown if needed) -->
+      <div id="paypalSection" class="card payment-card" style="display: none;">
+        <h2>Complete Your Payment</h2>
+        <div id="paypal-button-container"></div>
+      </div>
 
-    <div class="card stream-card">
-      <h2>Live Wish Stream</h2>
-      <div id="wishStream" class="wish-stream"></div>
-    </div>
+      <!-- Wish Stream -->
+      <div class="card stream-card">
+        <h2>Live Wish Stream</h2>
+        <div id="wishStream" class="wish-stream"></div>
+      </div>
 
-    <div class="card faq-card">
-      <h2>FAQ</h2>
-      <p><strong>Is my payment safe?</strong> Yes – we use PayPal’s secure platform.</p>
+      <!-- FAQ -->
+      <div class="card faq-card">
+        <h2>FAQ</h2>
+        <p><strong>Is my payment safe?</strong> Yes – we use PayPal’s secure platform.</p>
+      </div>
     </div>
   </section>
 
-  <!-- Custom JavaScript -->
+  <!-- Custom JS -->
   <script src="scripts.js"></script>
 </body>
 </html>
