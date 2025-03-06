@@ -1,4 +1,4 @@
-/* Reset and Base Styles */
+/* Reset and base styles */
 * {
   box-sizing: border-box;
 }
@@ -6,10 +6,11 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: 'Montserrat', sans-serif;
   height: 100%;
+  font-family: 'Montserrat', sans-serif;
   color: #fff;
-  background-color: #000;
+  background: url("images/magical-well-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
 }
 
 /* Hero Section */
@@ -17,13 +18,20 @@ html, body {
   position: relative;
   width: 100%;
   height: 100vh;
-  background: url("images/magical-well-bg.png") no-repeat center center fixed;
-  background-size: cover;
+  /* The background image is inherited from body; no extra overlay on the whole page */
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 2;
+  transition: opacity 0.8s ease;
 }
 
+.hero.fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Semi-transparent overlay for hero content only */
 .hero-overlay {
   position: absolute;
   top: 0;
@@ -31,9 +39,10 @@ html, body {
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
-  animation: fadeIn 1.2s ease-out;
+  z-index: 1;
 }
 
+/* Hero Content */
 .hero-content {
   position: relative;
   z-index: 2;
@@ -56,38 +65,34 @@ html, body {
 }
 
 .cta-btn {
-  text-decoration: none;
   background: #ff416c;
   color: #fff;
+  border: none;
   padding: 15px 30px;
   border-radius: 50px;
-  transition: background 0.3s ease;
   font-size: 1.1rem;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
 
 .cta-btn:hover {
   background: #ff4b2b;
 }
 
-/* Animations */
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
+/* Slide-up animation */
 @keyframes slideUp {
   from { transform: translateY(30px); opacity: 0; }
   to { transform: translateY(0); opacity: 1; }
 }
 
-/* Content Section */
+/* Main Content */
 .content {
   padding: 60px 20px;
-  background: #111;
+  margin-top: -60px; /* Overlap a bit with hero fade-out */
 }
 
 .card {
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(0, 0, 0, 0.5);
   border: none;
   border-radius: 10px;
   padding: 30px;
