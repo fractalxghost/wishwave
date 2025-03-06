@@ -17,9 +17,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-let selectedAmount = "1.00"; // default payment amount
+let selectedAmount = "0.00"; // default to free
 
-// Function to store wish directly (for free wishes)
+// Store wish directly (for free wishes)
 function storeWishDirectly(wish, amount) {
   db.collection('wishes').add({
     wish: wish,
@@ -35,28 +35,23 @@ function storeWishDirectly(wish, amount) {
   });
 }
 
-// Function to animate the wish into the well and trigger payment flow if needed
+// Animate the wish into the well and then decide if payment is needed
 function animateWish() {
   const wishInput = document.getElementById("wishInput");
   const amountInput = document.getElementById("amountInput");
   const wishText = wishInput.value.trim();
-  let amountText = amountInput.value.trim().toLowerCase();
+  const amountText = amountInput.value.trim();
 
-  if (!wishText || !amountText) return;
+  // If no wish text, do nothing
+  if (!wishText) return;
 
-  // Determine if the wish is free or requires payment
-  const isFree = (amountText === "free" || amountText === "0");
-
-  // If not free, ensure the amount is a valid number and format it
-  if (!isFree) {
-    const numAmount = parseFloat(amountText);
-    if (isNaN(numAmount) || numAmount <= 0) {
-      alert("Please enter a valid payment amount or type 'free'.");
-      return;
-    }
-    selectedAmount = numAmount.toFixed(2);
-  } else {
+  // If amount is empty, zero, or not a valid positive number => free
+  let numAmount = parseFloat(amountText);
+  if (!amountText || isNaN(numAmount) || numAmount <= 0) {
     selectedAmount = "0.00";
+  } else {
+    // Valid positive number => set as the PayPal amount
+    selectedAmount = numAmount.toFixed(2);
   }
 
   // Create an element for the wish animation
@@ -65,35 +60,35 @@ function animateWish() {
   animWish.textContent = wishText;
   document.body.appendChild(animWish);
 
-  // Get start and end coordinates
+  // Animate from input to well
   const inputRect = wishInput.getBoundingClientRect();
   const well = document.getElementById("well");
   const wellRect = well.getBoundingClientRect();
 
-  // Set initial position of the animated wish element to match the input field
+  // Position the animated wish element initially at the input
   animWish.style.position = "absolute";
   animWish.style.left = inputRect.left + "px";
   animWish.style.top = inputRect.top + "px";
 
-  // Force reflow for transition to work
+  // Trigger reflow for transition
   void animWish.offsetWidth;
 
-  // Animate: move wish to the center of the well and fade out
+  // Move to center of the well and fade out
   animWish.style.transition = "all 1s ease-in-out";
   animWish.style.left = wellRect.left + (wellRect.width / 2 - animWish.offsetWidth / 2) + "px";
   animWish.style.top = wellRect.top + (wellRect.height / 2 - animWish.offsetHeight / 2) + "px";
   animWish.style.opacity = "0";
 
-  // Add glow effect to well's water
+  // Water glow animation
   well.querySelector(".water").classList.add("glow");
 
-  // Once animation is complete, remove the animated element and clear input fields
+  // Cleanup after animation
   setTimeout(() => {
     animWish.remove();
     wishInput.value = "";
     amountInput.value = "";
 
-    // For visual effect, briefly add the wish into the well then remove it
+    // Briefly show the wish inside the well
     const tempWish = document.createElement("div");
     tempWish.className = "well-wish";
     tempWish.textContent = wishText;
@@ -102,77 +97,5 @@ function animateWish() {
       tempWish.remove();
     }, 1500);
 
-    if (isFree) {
-      // Directly store the wish without payment
-      storeWishDirectly(wishText, "free");
-    } else {
-      // Reveal the PayPal section for payment
-      document.getElementById("paypalSection").style.display = "block";
-    }
-  }, 1100);
-}
-
-// Attach event listener to the custom button
-document.getElementById("submitWishButton").addEventListener("click", animateWish);
-
-// PayPal Button Integration (for paid wishes)
-paypal.Buttons({
-  // Create an order using the selected amount from the form
-  createOrder: function(data, actions) {
-    return actions.order.create({
-      purchase_units: [{
-        amount: {
-          value: selectedAmount,
-          currency_code: "USD"
-        }
-      }]
-    });
-  },
-  // Handle payment approval
-  onApprove: function(data, actions) {
-    // For paid wishes, retrieve the wish from the well
-    const well = document.getElementById("well");
-    const wishes = well.getElementsByClassName("well-wish");
-    const wish = wishes.length ? wishes[wishes.length - 1].textContent : "No wish";
-
-    // Send payment and wish to serverless function
-    fetch("/api/capture-payment", {
-      method: "POST",
-      body: JSON.stringify({ orderID: data.orderID, wish: wish, amount: selectedAmount }),
-      headers: { "Content-Type": "application/json" }
-    })
-    .then(response => response.json())
-    .then(res => {
-      if (res.success) {
-        alert("Thank you! Your wish has been added.");
-      } else {
-        alert("Error processing your wish. Please try again.");
-      }
-    })
-    .catch(error => {
-      console.error("Error:", error);
-      alert("An error occurred. Please try again.");
-    });
-  },
-  onError: function(err) {
-    console.error("PayPal Error:", err);
-    alert("Payment failed. Please try again.");
-  }
-}).render("#paypal-button-container");
-
-// Real-time Wish Stream: Display wishes from Firestore
-db.collection("wishes")
-  .orderBy("timestamp", "desc")
-  .onSnapshot(snapshot => {
-    const wishStream = document.getElementById("wishStream");
-    wishStream.innerHTML = ""; // Clear existing wishes
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const listItem = document.createElement("div");
-      listItem.className = "list-group-item";
-      listItem.textContent = data.wish + (data.amount && data.amount !== "free" ? " - $" + data.amount : " (free)");
-      wishStream.appendChild(listItem);
-    });
-  }, error => {
-    console.error("Firestore Error:", error);
-  });
+    // If free => store directly, else show PayPal
+    if (selectedAmount === "0.
