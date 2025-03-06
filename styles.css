@@ -1,12 +1,23 @@
 /* General Styles */
 body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(to bottom, #6b48ff, #00ddeb);
+  /* Magical background: a vibrant animated gradient */
+  background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4);
+  background-size: 400% 400%;
+  animation: gradientAnimation 15s ease infinite;
   color: white;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  overflow-x: hidden;
+}
+
+/* Gradient Animation */
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* Jumbotron (Header) */
@@ -29,13 +40,14 @@ h1, h2 {
 }
 
 /* Form Input */
-#wishInput {
+#wishInput, #amountInput {
   background: rgba(255, 255, 255, 0.2);
   color: white;
   border: none;
+  margin-bottom: 10px;
 }
 
-#wishInput::placeholder {
+#wishInput::placeholder, #amountInput::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -55,32 +67,53 @@ h1, h2 {
 
 /* Well Styling */
 #well {
-  width: 200px;
-  height: 200px;
+  width: 250px;
+  height: 250px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, 0.2);
+  background: radial-gradient(circle at center, #3a3a3a, #1a1a1a);
+  border: 5px solid #555;
   border-radius: 50%;
   position: relative;
   overflow: hidden;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.7);
 }
 
-/* Glowing Animation */
-@keyframes glow {
-  0% { box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.5); }
-  50% { box-shadow: 0 0 20px 10px rgba(255, 255, 255, 1); }
-  100% { box-shadow: 0 0 5px 0 rgba(255, 255, 255, 0.5); }
+/* Water Animation inside the well */
+.water {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  background: linear-gradient(to top, #00ddeb, #006bb3);
+  animation: waterFlow 3s ease-in-out infinite;
 }
 
+/* Water flow animation */
+@keyframes waterFlow {
+  0% { transform: translateY(0%); }
+  50% { transform: translateY(-10%); }
+  100% { transform: translateY(0%); }
+}
+
+/* Glowing effect on water */
 .glow {
-  animation: glow 1s ease-in-out;
+  animation: waterGlow 1.5s ease-in-out;
 }
 
-/* Wishes inside the well */
+@keyframes waterGlow {
+  0% { box-shadow: 0 0 5px 0 rgba(0, 221, 235, 0.5); }
+  50% { box-shadow: 0 0 20px 10px rgba(0, 107, 179, 1); }
+  100% { box-shadow: 0 0 5px 0 rgba(0, 221, 235, 0.5); }
+}
+
+/* Temporary wish display in the well (briefly shown, then removed) */
 .well-wish {
   position: absolute;
-  bottom: 10px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.9rem;
+  transform: translate(-50%, -50%);
+  font-size: 1.1rem;
+  font-weight: bold;
   color: #fff;
+  opacity: 0.9;
 }
