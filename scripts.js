@@ -3,7 +3,7 @@
  * Client-Side Code for WishWave
  ***********************************/
 
-// Firebase Configuration (replace with your actual values or inject via environment variables)
+// Firebase Configuration (replace placeholders with your actual values or inject via env)
 const firebaseConfig = {
   apiKey: "FIREBASE_API_KEY",
   authDomain: "FIREBASE_AUTH_DOMAIN",
@@ -17,11 +17,11 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 
-// Global variables to hold order amount and wish text for paid orders
+// Global variables for payment and wish text
 let selectedAmount = "0.00";
 let lastWish = "";
 
-// Function to store a free wish directly in Firestore
+// Store a free wish directly in Firestore
 function storeWishFree(wish) {
   db.collection("wishes").add({
     wish: wish,
@@ -35,29 +35,27 @@ function storeWishFree(wish) {
   });
 }
 
-// Handle the wish submission
+// Handle wish submission
 function handleWishSubmission() {
   const wishInput = document.getElementById("wishInput");
   const amountInput = document.getElementById("amountInput");
-  
+
   const wishText = wishInput.value.trim();
   const amountText = amountInput.value.trim();
 
   if (!wishText) return;
-  
-  lastWish = wishText; // Preserve for paid orders
+
+  lastWish = wishText;
 
   const amountNum = parseFloat(amountText);
   if (!amountText || isNaN(amountNum) || amountNum <= 0) {
-    // Free wish
     selectedAmount = "0.00";
     storeWishFree(wishText);
   } else {
-    // Paid wish
     selectedAmount = amountNum.toFixed(2);
     document.getElementById("paypalSection").style.display = "block";
   }
-  
+
   wishInput.value = "";
   amountInput.value = "";
 }
@@ -115,3 +113,12 @@ db.collection("wishes")
       wishStream.appendChild(listItem);
     });
   }, error => console.error("Firestore Error:", error));
+
+// Get Started Button: Fade out hero and scroll down
+document.getElementById("getStartedBtn").addEventListener("click", () => {
+  const hero = document.getElementById("hero");
+  hero.classList.add("fade-out");
+  setTimeout(() => {
+    document.getElementById("mainContent").scrollIntoView({ behavior: "smooth" });
+  }, 800);
+});
