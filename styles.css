@@ -1,10 +1,9 @@
-/* General Styles */
+/* Body with a full-page background image */
 body {
   font-family: 'Poppins', sans-serif;
-  /* Magical background: a vibrant animated gradient */
-  background: linear-gradient(135deg, #ff9a9e, #fad0c4, #fad0c4);
-  background-size: 400% 400%;
-  animation: gradientAnimation 15s ease infinite;
+  /* Replace 'images/magical-well-bg.jpg' with the correct path/filename */
+  background: url("images/magical-well-bg.jpg") no-repeat center center fixed;
+  background-size: cover;
   color: white;
   min-height: 100vh;
   display: flex;
@@ -13,16 +12,12 @@ body {
   overflow-x: hidden;
 }
 
-/* Gradient Animation */
-@keyframes gradientAnimation {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
 /* Jumbotron (Header) */
 .jumbotron {
-  background: transparent;
+  background: rgba(0, 0, 0, 0.4);
+  margin-top: 20px;
+  padding: 20px;
+  border-radius: 10px;
 }
 
 /* Headings */
@@ -32,7 +27,7 @@ h1, h2 {
 
 /* Wish Stream Items */
 #wishStream .list-group-item {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.2);
   color: white;
   margin-bottom: 10px;
   border: none;
@@ -47,7 +42,8 @@ h1, h2 {
   margin-bottom: 10px;
 }
 
-#wishInput::placeholder, #amountInput::placeholder {
+#wishInput::placeholder,
+#amountInput::placeholder {
   color: rgba(255, 255, 255, 0.7);
 }
 
@@ -88,7 +84,6 @@ h1, h2 {
   animation: waterFlow 3s ease-in-out infinite;
 }
 
-/* Water flow animation */
 @keyframes waterFlow {
   0% { transform: translateY(0%); }
   50% { transform: translateY(-10%); }
@@ -101,8 +96,8 @@ h1, h2 {
 }
 
 @keyframes waterGlow {
-  0% { box-shadow: 0 0 5px 0 rgba(0, 221, 235, 0.5); }
-  50% { box-shadow: 0 0 20px 10px rgba(0, 107, 179, 1); }
+  0%   { box-shadow: 0 0 5px 0 rgba(0, 221, 235, 0.5); }
+  50%  { box-shadow: 0 0 20px 10px rgba(0, 107, 179, 1); }
   100% { box-shadow: 0 0 5px 0 rgba(0, 221, 235, 0.5); }
 }
 
@@ -116,4 +111,12 @@ h1, h2 {
   font-weight: bold;
   color: #fff;
   opacity: 0.9;
+}
+
+/* Optional: Make containers less transparent for readability */
+.container {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 40px;
 }
